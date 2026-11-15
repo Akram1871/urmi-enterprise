@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">ঊর্মি এন্টারপ্রাইজ</string>
-    <string name="app_subtitle">ঊর্মি এন্টারপ্রাইজ (Urmi Enterprise) — দৈনিক ব্যবসার হিসাব খাতা</string>
-    <string name="tab_analytics">বিশ্লেষণ</string>
-    <string name="tab_baki">মার্কেটের বাকি</string>
-    <string name="tab_dashboard">আজকের হিসাব</string>
-    <string name="tab_more">সম্পদ ও ব্যাকআপ</string>
-</resources>
