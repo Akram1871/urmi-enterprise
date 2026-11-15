@@ -90,13 +90,18 @@ class BackupSyncRepositoryImpl @Inject constructor(
 
         val activeVendorsList = vendorDao.getActiveVendors()
         val activeShopkeepersList = shopkeeperDao.getActiveShopkeepers()
+        val activeTxsList = transactionDao.getAllActiveTransactionsForExport()
+        val activeAssetsList = assetDao.getAllActiveAssets()
         val allVendors = activeVendorsList.associateBy { it.vendorId }
         val allShopkeepers = activeShopkeepersList.associateBy { it.shopkeeperId }
 
-        // Always push all active + unsynced vendors and shopkeepers so Google Sheets
-        // Vendor_Baki and Shopkeeper_Baki tabs always reflect 100% accurate totals
+        // Always push all active + unsynced transactions, vendors, shopkeepers, and assets
+        // so Google Sheets tabs (Transactions, Vendor_Baki, Shopkeeper_Baki, Assets_Maintenance)
+        // always contain the complete dataset for 100% accurate new-phone restore.
+        val txsToPush = (activeTxsList + unsyncedTxs).distinctBy { it.transactionId }
         val vendorsToPush = (activeVendorsList + unsyncedVendors).distinctBy { it.vendorId }
         val shopkeepersToPush = (activeShopkeepersList + unsyncedShopkeepers).distinctBy { it.shopkeeperId }
+        val assetsToPush = (activeAssetsList + unsyncedAssets).distinctBy { it.assetId }
 
         val payload = SheetsBackupPayloadDto(
             secretToken = config.secretToken,
@@ -119,7 +124,7 @@ class BackupSyncRepositoryImpl @Inject constructor(
                 totalActiveVendorBakiBdt = totalVendorBaki,
                 personalHomeExpenseBdt = dailyAgg.personalHomeExpenseBdt
             ),
-            transactions = unsyncedTxs.map { tx ->
+            transactions = txsToPush.map { tx ->
                 TransactionSheetRowDto(
                     transactionId = tx.transactionId,
                     dateKey = tx.dateKey,
@@ -152,7 +157,7 @@ class BackupSyncRepositoryImpl @Inject constructor(
                     isDeleted = s.isDeleted
                 )
             },
-            assets = unsyncedAssets.map { a ->
+            assets = assetsToPush.map { a ->
                 AssetSheetRowDto(
                     assetId = a.assetId,
                     assetNameBn = a.assetNameBn,
@@ -398,12 +403,23 @@ class BackupSyncRepositoryImpl @Inject constructor(
                             }
                         }
 
-                        val safeCategoryId = if (tx.categoryId in validCategoryIds) {
-                            tx.categoryId
-                        } else {
-                            CategoryEntity.CAT_OTHER
+                        val isHomeExpenseRow = tx.txType == TxType.PERSONAL_HOME_EXPENSE ||
+                            tx.categoryId.equals(CategoryEntity.CAT_HOME_EXPENSE, ignoreCase = true) ||
+                            tx.categoryId.contains("home", ignoreCase = true) ||
+                            tx.categoryId.contains("বাসা") ||
+                            tx.txType.contains("HOME", ignoreCase = true)
+
+                        val safeCategoryId = when {
+                            isHomeExpenseRow -> CategoryEntity.CAT_HOME_EXPENSE
+                            tx.categoryId in validCategoryIds -> tx.categoryId
+                            else -> CategoryEntity.CAT_OTHER
                         }
-                        val safeDateKey = tx.dateKey.ifBlank { BanglaDateUtils.toDateKey(now) }
+                        val safeTxType = when {
+                            isHomeExpenseRow -> TxType.PERSONAL_HOME_EXPENSE
+                            tx.txType.isNotBlank() -> tx.txType
+                            else -> TxType.OPERATING_EXPENSE
+                        }
+                        val safeDateKey = normalizeRestoredDateKey(tx.dateKey, tx.eventDateMillis, now)
                         val eventMillis = if (tx.eventDateMillis > 0L) {
                             tx.eventDateMillis
                         } else {
@@ -415,7 +431,7 @@ class BackupSyncRepositoryImpl @Inject constructor(
                         transactionDao.upsertTransaction(
                             TransactionEntity(
                                 transactionId = tx.transactionId,
-                                txType = tx.txType.ifBlank { "EXPENSE" },
+                                txType = safeTxType,
                                 categoryId = safeCategoryId,
                                 vendorId = resolvedVendorId,
                                 shopkeeperId = resolvedShopkeeperId,
@@ -436,6 +452,55 @@ class BackupSyncRepositoryImpl @Inject constructor(
                             )
                         )
                         restoredCount++
+                    }
+
+                    // 5. Fallback: If Daily_Summary has personalHomeExpenseBdt > 0 for any date
+                    // that has no PERSONAL_HOME_EXPENSE transaction yet, restore it automatically
+                    val datesWithHomeTx = resp.transactions
+                        .filter {
+                            !it.isDeleted && (
+                                it.txType == TxType.PERSONAL_HOME_EXPENSE ||
+                                    it.categoryId.equals(CategoryEntity.CAT_HOME_EXPENSE, ignoreCase = true) ||
+                                    it.categoryId.contains("home", ignoreCase = true) ||
+                                    it.categoryId.contains("বাসা")
+                                )
+                        }
+                        .map { normalizeRestoredDateKey(it.dateKey, it.eventDateMillis, now) }
+                        .toMutableSet()
+
+                    for (ds in resp.dailySummaries) {
+                        if (ds.personalHomeExpenseBdt <= 0L) continue
+                        val dsDateKey = normalizeRestoredDateKey(ds.dateKey, 0L, now)
+                        if (dsDateKey !in datesWithHomeTx) {
+                            val dsEventMillis = runCatching {
+                                BanglaDateUtils.localDateToNoonMillis(LocalDate.parse(dsDateKey))
+                            }.getOrDefault(now)
+                            transactionDao.upsertTransaction(
+                                TransactionEntity(
+                                    transactionId = "summary_home_$dsDateKey",
+                                    txType = TxType.PERSONAL_HOME_EXPENSE,
+                                    categoryId = CategoryEntity.CAT_HOME_EXPENSE,
+                                    vendorId = null,
+                                    shopkeeperId = null,
+                                    assetId = null,
+                                    totalBillBdt = ds.personalHomeExpenseBdt,
+                                    cashAmountBdt = ds.personalHomeExpenseBdt,
+                                    bakiDeltaBdt = 0L,
+                                    runningShopkeeperBakiBdt = 0L,
+                                    eventDateMillis = dsEventMillis,
+                                    dateKey = dsDateKey,
+                                    yearMonth = dsDateKey.take(7),
+                                    noteBn = "বাসা ও সংসারের খরচ (শিট থেকে রিস্টোর)",
+                                    createdAt = dsEventMillis,
+                                    updatedAt = now,
+                                    version = 1,
+                                    isDeleted = false,
+                                    syncStatus = SyncStatus.SYNCED
+                                )
+                            )
+                            datesWithHomeTx.add(dsDateKey)
+                            restoredCount++
+                        }
                     }
 
                     val countBn = BanglaNumberFormatter.toBanglaDigits(restoredCount)
@@ -483,5 +548,40 @@ class BackupSyncRepositoryImpl @Inject constructor(
             )
         }
         return sb.toString()
+    }
+
+    private fun normalizeRestoredDateKey(
+        rawDateKey: String,
+        eventDateMillis: Long,
+        fallbackNowMillis: Long
+    ): String {
+        if (eventDateMillis > 0L) {
+            return BanglaDateUtils.toDateKey(eventDateMillis)
+        }
+        val trimmed = rawDateKey.trim().removePrefix("'")
+        if (trimmed.length >= 10) {
+            val head10 = trimmed.take(10)
+            val parsedIso = runCatching { LocalDate.parse(head10) }.getOrNull()
+            if (parsedIso != null) {
+                return parsedIso.toString()
+            }
+        }
+        // Handle slash-separated dates (e.g. MM/dd/yyyy or dd/MM/yyyy from Google Sheets)
+        if (trimmed.contains("/")) {
+            val parts = trimmed.substringBefore(" ").split("/")
+            if (parts.size == 3) {
+                val p0 = parts[0].toIntOrNull()
+                val p1 = parts[1].toIntOrNull()
+                val p2 = parts[2].toIntOrNull()
+                if (p0 != null && p1 != null && p2 != null) {
+                    val year = if (p2 > 1900) p2 else if (p0 > 1900) p0 else 2026
+                    val month = if (p0 in 1..12 && p2 > 1900) p0 else p1.coerceIn(1, 12)
+                    val day = if (p0 in 1..12 && p2 > 1900) p1.coerceIn(1, 31) else p0.coerceIn(1, 31)
+                    val candidate = runCatching { LocalDate.of(year, month, day) }.getOrNull()
+                    if (candidate != null) return candidate.toString()
+                }
+            }
+        }
+        return BanglaDateUtils.toDateKey(fallbackNowMillis)
     }
 }

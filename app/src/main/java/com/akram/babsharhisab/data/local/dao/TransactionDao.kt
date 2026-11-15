@@ -97,9 +97,9 @@ interface TransactionDao {
             COALESCE(SUM(CASE WHEN tx_type = 'WHOLESALE_PURCHASE' THEN cash_amount_bdt ELSE 0 END), 0) AS cash_purchase_bdt,
             COALESCE(SUM(CASE WHEN tx_type = 'WHOLESALE_PURCHASE' THEN baki_delta_bdt ELSE 0 END), 0) AS new_vendor_baki_bdt,
             COALESCE(SUM(CASE WHEN tx_type = 'VENDOR_BAKI_PAYMENT' THEN cash_amount_bdt ELSE 0 END), 0) AS vendor_baki_paid_bdt,
-            COALESCE(SUM(CASE WHEN tx_type = 'OPERATING_EXPENSE' THEN total_bill_bdt ELSE 0 END), 0) AS operating_expense_bdt,
+            COALESCE(SUM(CASE WHEN tx_type = 'OPERATING_EXPENSE' AND category_id != 'cat_home_expense' THEN total_bill_bdt ELSE 0 END), 0) AS operating_expense_bdt,
             COALESCE(SUM(CASE WHEN tx_type = 'ASSET_MAINTENANCE' THEN total_bill_bdt ELSE 0 END), 0) AS asset_maintenance_bdt,
-            COALESCE(SUM(CASE WHEN tx_type = 'PERSONAL_HOME_EXPENSE' THEN total_bill_bdt ELSE 0 END), 0) AS personal_home_expense_bdt
+            COALESCE(SUM(CASE WHEN tx_type = 'PERSONAL_HOME_EXPENSE' OR category_id = 'cat_home_expense' THEN total_bill_bdt ELSE 0 END), 0) AS personal_home_expense_bdt
         FROM transactions
         WHERE is_deleted = 0 AND date_key = :dateKey
     """)
@@ -116,9 +116,9 @@ interface TransactionDao {
             COALESCE(SUM(CASE WHEN tx_type = 'WHOLESALE_PURCHASE' THEN cash_amount_bdt ELSE 0 END), 0) AS cash_purchase_bdt,
             COALESCE(SUM(CASE WHEN tx_type = 'WHOLESALE_PURCHASE' THEN baki_delta_bdt ELSE 0 END), 0) AS new_vendor_baki_bdt,
             COALESCE(SUM(CASE WHEN tx_type = 'VENDOR_BAKI_PAYMENT' THEN cash_amount_bdt ELSE 0 END), 0) AS vendor_baki_paid_bdt,
-            COALESCE(SUM(CASE WHEN tx_type = 'OPERATING_EXPENSE' THEN total_bill_bdt ELSE 0 END), 0) AS operating_expense_bdt,
+            COALESCE(SUM(CASE WHEN tx_type = 'OPERATING_EXPENSE' AND category_id != 'cat_home_expense' THEN total_bill_bdt ELSE 0 END), 0) AS operating_expense_bdt,
             COALESCE(SUM(CASE WHEN tx_type = 'ASSET_MAINTENANCE' THEN total_bill_bdt ELSE 0 END), 0) AS asset_maintenance_bdt,
-            COALESCE(SUM(CASE WHEN tx_type = 'PERSONAL_HOME_EXPENSE' THEN total_bill_bdt ELSE 0 END), 0) AS personal_home_expense_bdt
+            COALESCE(SUM(CASE WHEN tx_type = 'PERSONAL_HOME_EXPENSE' OR category_id = 'cat_home_expense' THEN total_bill_bdt ELSE 0 END), 0) AS personal_home_expense_bdt
         FROM transactions
         WHERE is_deleted = 0 AND date_key = :dateKey
     """)
@@ -127,7 +127,7 @@ interface TransactionDao {
     @Query("""
         SELECT COALESCE(SUM(total_bill_bdt), 0)
         FROM transactions
-        WHERE is_deleted = 0 AND year_month = :yearMonth AND tx_type = 'PERSONAL_HOME_EXPENSE'
+        WHERE is_deleted = 0 AND year_month = :yearMonth AND (tx_type = 'PERSONAL_HOME_EXPENSE' OR category_id = 'cat_home_expense')
     """)
     fun observeMonthlyHomeExpense(yearMonth: String): Flow<Long>
 
@@ -156,10 +156,10 @@ interface TransactionDao {
             year_month,
             COALESCE(SUM(CASE WHEN tx_type = 'SALE' THEN total_bill_bdt ELSE 0 END), 0) AS total_sales_bdt,
             COALESCE(SUM(CASE WHEN tx_type = 'WHOLESALE_PURCHASE' THEN total_bill_bdt ELSE 0 END), 0) AS total_purchase_bdt,
-            COALESCE(SUM(CASE WHEN tx_type = 'OPERATING_EXPENSE' THEN total_bill_bdt ELSE 0 END), 0) AS total_operating_expense_bdt,
+            COALESCE(SUM(CASE WHEN tx_type = 'OPERATING_EXPENSE' AND category_id != 'cat_home_expense' THEN total_bill_bdt ELSE 0 END), 0) AS total_operating_expense_bdt,
             COALESCE(SUM(CASE WHEN tx_type = 'ASSET_MAINTENANCE' THEN total_bill_bdt ELSE 0 END), 0) AS total_asset_expense_bdt,
             COALESCE(SUM(CASE WHEN tx_type IN ('SALE', 'BAKI_COLLECTION') THEN cash_amount_bdt ELSE 0 END), 0) AS total_cash_in_bdt,
-            COALESCE(SUM(CASE WHEN tx_type = 'PERSONAL_HOME_EXPENSE' THEN total_bill_bdt ELSE 0 END), 0) AS total_home_expense_bdt
+            COALESCE(SUM(CASE WHEN tx_type = 'PERSONAL_HOME_EXPENSE' OR category_id = 'cat_home_expense' THEN total_bill_bdt ELSE 0 END), 0) AS total_home_expense_bdt
         FROM transactions
         WHERE is_deleted = 0 AND year_month IN (:yearMonths)
         GROUP BY year_month

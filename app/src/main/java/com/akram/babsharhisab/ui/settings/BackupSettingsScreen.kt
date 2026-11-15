@@ -580,14 +580,23 @@ function upsertRowByKey(sheet, keyColIndex1Based, keyValue, rowValues) {
 }
 
 function pullAllDataFromSheets(ss) {
-  var transactions = [], shopkeepers = [], vendors = [], assets = [];
+  var transactions = [], shopkeepers = [], vendors = [], assets = [], dailySummaries = [];
+  var summarySheet = ss.getSheetByName("Daily_Summary");
+  if (summarySheet && summarySheet.getLastRow() > 1) {
+    var dsRows = summarySheet.getRange(2, 1, summarySheet.getLastRow() - 1, summarySheet.getLastColumn()).getValues();
+    for (var d = 0; d < dsRows.length; d++) {
+      var dr = dsRows[d];
+      if (!dr[0]) continue;
+      dailySummaries.push({dateKey: formatCellDateKey(dr[0], ss), totalSalesBdt: Number(dr[1] || 0), cashSalesBdt: Number(dr[2] || 0), newBakiGivenBdt: Number(dr[3] || 0), bakiCollectedBdt: Number(dr[4] || 0), wholesalePurchaseBdt: Number(dr[5] || 0), operatingExpenseBdt: Number(dr[6] || 0), assetMaintenanceBdt: Number(dr[7] || 0), dailyDepreciationBdt: Number(dr[8] || 0), netOperationalProfitBdt: Number(dr[9] || 0), adjustedNetProfitBdt: Number(dr[10] || 0), netCashFlowBdt: Number(dr[11] || 0), totalActiveMarketBakiBdt: Number(dr[12] || 0), totalActiveVendorBakiBdt: dr.length > 14 ? Number(dr[13] || 0) : 0, personalHomeExpenseBdt: dr.length > 15 ? Number(dr[14] || 0) : 0});
+    }
+  }
   var txSheet = ss.getSheetByName("Transactions");
   if (txSheet && txSheet.getLastRow() > 1) {
     var txRows = txSheet.getRange(2, 1, txSheet.getLastRow() - 1, txSheet.getLastColumn()).getValues();
     for (var i = 0; i < txRows.length; i++) {
       var r = txRows[i];
       if (!r[0]) continue;
-      transactions.push({transactionId: String(r[0]), dateKey: formatCellDateKey(r[1]), txType: String(r[2] || "EXPENSE"), categoryId: String(r[3] || "CAT_OTHER"), vendorNameBn: String(r[4] || ""), shopkeeperNameBn: String(r[5] || ""), totalBillBdt: Number(r[6] || 0), cashAmountBdt: Number(r[7] || 0), bakiDeltaBdt: Number(r[8] || 0), runningShopkeeperBakiBdt: Number(r[9] || 0), noteBn: String(r[10] || ""), version: Number(r[11] || 1), isDeleted: String(r[12] || "") === "DELETED", vendorId: r.length > 13 ? String(r[13] || "") : "", shopkeeperId: r.length > 14 ? String(r[14] || "") : "", assetId: r.length > 15 ? String(r[15] || "") : ""});
+      transactions.push({transactionId: String(r[0]), dateKey: formatCellDateKey(r[1], ss), txType: String(r[2] || "EXPENSE"), categoryId: String(r[3] || "CAT_OTHER"), vendorNameBn: String(r[4] || ""), shopkeeperNameBn: String(r[5] || ""), totalBillBdt: Number(r[6] || 0), cashAmountBdt: Number(r[7] || 0), bakiDeltaBdt: Number(r[8] || 0), runningShopkeeperBakiBdt: Number(r[9] || 0), noteBn: String(r[10] || ""), version: Number(r[11] || 1), isDeleted: String(r[12] || "") === "DELETED", vendorId: r.length > 13 ? String(r[13] || "") : "", shopkeeperId: r.length > 14 ? String(r[14] || "") : "", assetId: r.length > 15 ? String(r[15] || "") : ""});
     }
   }
   var shopSheet = ss.getSheetByName("Shopkeeper_Baki");
@@ -619,15 +628,18 @@ function pullAllDataFromSheets(ss) {
     for (var k = 0; k < aRows.length; k++) {
       var ar = aRows[k];
       if (!ar[0]) continue;
-      assets.push({assetId: String(ar[0]), assetNameBn: String(ar[1] || ""), purchaseCostBdt: Number(ar[2] || 0), lifespanMonths: Number(ar[3] || 24), purchaseDateKey: formatCellDateKey(ar[4]), nextDueDateKey: formatCellDateKey(ar[5]), dailyDepreciationBdt: Number(ar[6] || 0), monthlyDepreciationBdt: Number(ar[7] || 0), notesBn: String(ar[8] || ""), isActive: String(ar[9] || "") !== "ARCHIVED", isDeleted: String(ar[9] || "") === "DELETED"});
+      assets.push({assetId: String(ar[0]), assetNameBn: String(ar[1] || ""), purchaseCostBdt: Number(ar[2] || 0), lifespanMonths: Number(ar[3] || 24), purchaseDateKey: formatCellDateKey(ar[4], ss), nextDueDateKey: formatCellDateKey(ar[5], ss), dailyDepreciationBdt: Number(ar[6] || 0), monthlyDepreciationBdt: Number(ar[7] || 0), notesBn: String(ar[8] || ""), isActive: String(ar[9] || "") !== "ARCHIVED", isDeleted: String(ar[9] || "") === "DELETED"});
     }
   }
-  return ContentService.createTextOutput(JSON.stringify({status:"SUCCESS", message:"ডাটা সফলভাবে ডাউনলোড হয়েছে", syncedCount: transactions.length + shopkeepers.length + vendors.length + assets.length, transactions: transactions, shopkeepers: shopkeepers, vendors: vendors, assets: assets})).setMimeType(ContentService.MimeType.JSON);
+  return ContentService.createTextOutput(JSON.stringify({status:"SUCCESS", message:"ডাটা সফলভাবে ডাউনলোড হয়েছে", syncedCount: transactions.length + shopkeepers.length + vendors.length + assets.length, transactions: transactions, shopkeepers: shopkeepers, vendors: vendors, assets: assets, dailySummaries: dailySummaries})).setMimeType(ContentService.MimeType.JSON);
 }
 
-function formatCellDateKey(val) {
+function formatCellDateKey(val, ss) {
   if (!val) return "";
-  if (val instanceof Date) return Utilities.formatDate(val, "Asia/Dhaka", "yyyy-MM-dd");
+  if (Object.prototype.toString.call(val) === "[object Date]" || val instanceof Date) {
+    var tz = (ss && ss.getSpreadsheetTimeZone) ? ss.getSpreadsheetTimeZone() : "Asia/Dhaka";
+    return Utilities.formatDate(val, tz, "yyyy-MM-dd");
+  }
   return String(val).substring(0, 10);
 }
     """.trimIndent()

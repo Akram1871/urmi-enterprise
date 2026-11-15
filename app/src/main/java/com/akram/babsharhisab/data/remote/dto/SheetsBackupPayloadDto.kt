@@ -23,19 +23,19 @@ data class SheetsPullRequestDto(
 
 @Serializable
 data class DailySummarySheetRowDto(
-    val dateKey: String,
-    val totalSalesBdt: Long,
-    val cashSalesBdt: Long,
-    val newBakiGivenBdt: Long,
-    val bakiCollectedBdt: Long,
-    val wholesalePurchaseBdt: Long,
-    val operatingExpenseBdt: Long,
-    val assetMaintenanceBdt: Long,
-    val dailyDepreciationBdt: Long,
-    val netOperationalProfitBdt: Long,
-    val adjustedNetProfitBdt: Long,
-    val netCashFlowBdt: Long,
-    val totalActiveMarketBakiBdt: Long,
+    val dateKey: String = "",
+    val totalSalesBdt: Long = 0L,
+    val cashSalesBdt: Long = 0L,
+    val newBakiGivenBdt: Long = 0L,
+    val bakiCollectedBdt: Long = 0L,
+    val wholesalePurchaseBdt: Long = 0L,
+    val operatingExpenseBdt: Long = 0L,
+    val assetMaintenanceBdt: Long = 0L,
+    val dailyDepreciationBdt: Long = 0L,
+    val netOperationalProfitBdt: Long = 0L,
+    val adjustedNetProfitBdt: Long = 0L,
+    val netCashFlowBdt: Long = 0L,
+    val totalActiveMarketBakiBdt: Long = 0L,
     val totalActiveVendorBakiBdt: Long = 0L,
     val personalHomeExpenseBdt: Long = 0L
 )
@@ -107,5 +107,6 @@ data class SheetsBackupResponseDto(
     val transactions: List<TransactionSheetRowDto> = emptyList(),
     val shopkeepers: List<ShopkeeperSheetRowDto> = emptyList(),
     val vendors: List<VendorSheetRowDto> = emptyList(),
-    val assets: List<AssetSheetRowDto> = emptyList()
+    val assets: List<AssetSheetRowDto> = emptyList(),
+    val dailySummaries: List<DailySummarySheetRowDto> = emptyList()
 )

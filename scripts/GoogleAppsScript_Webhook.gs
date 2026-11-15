@@ -357,6 +357,33 @@ function pullAllDataFromSheets(ss) {
     }
   }
 
+  var dailySummaries = [];
+  var summarySheet = ss.getSheetByName("Daily_Summary");
+  if (summarySheet && summarySheet.getLastRow() > 1) {
+    var dsRows = summarySheet.getRange(2, 1, summarySheet.getLastRow() - 1, summarySheet.getLastColumn()).getValues();
+    for (var d = 0; d < dsRows.length; d++) {
+      var dr = dsRows[d];
+      if (!dr[0]) continue;
+      dailySummaries.push({
+        dateKey: formatCellDateKey(dr[0], ss),
+        totalSalesBdt: Number(dr[1] || 0),
+        cashSalesBdt: Number(dr[2] || 0),
+        newBakiGivenBdt: Number(dr[3] || 0),
+        bakiCollectedBdt: Number(dr[4] || 0),
+        wholesalePurchaseBdt: Number(dr[5] || 0),
+        operatingExpenseBdt: Number(dr[6] || 0),
+        assetMaintenanceBdt: Number(dr[7] || 0),
+        dailyDepreciationBdt: Number(dr[8] || 0),
+        netOperationalProfitBdt: Number(dr[9] || 0),
+        adjustedNetProfitBdt: Number(dr[10] || 0),
+        netCashFlowBdt: Number(dr[11] || 0),
+        totalActiveMarketBakiBdt: Number(dr[12] || 0),
+        totalActiveVendorBakiBdt: dr.length > 14 ? Number(dr[13] || 0) : 0,
+        personalHomeExpenseBdt: dr.length > 15 ? Number(dr[14] || 0) : 0
+      });
+    }
+  }
+
   var totalPulled = transactions.length + shopkeepers.length + vendors.length + assets.length;
   var out = JSON.stringify({
     status: "SUCCESS",
@@ -365,15 +392,17 @@ function pullAllDataFromSheets(ss) {
     transactions: transactions,
     shopkeepers: shopkeepers,
     vendors: vendors,
-    assets: assets
+    assets: assets,
+    dailySummaries: dailySummaries
   });
   return ContentService.createTextOutput(out).setMimeType(ContentService.MimeType.JSON);
 }
 
-function formatCellDateKey(val) {
+function formatCellDateKey(val, ss) {
   if (!val) return "";
-  if (val instanceof Date) {
-    return Utilities.formatDate(val, "Asia/Dhaka", "yyyy-MM-dd");
+  if (Object.prototype.toString.call(val) === "[object Date]" || val instanceof Date) {
+    var tz = (ss && ss.getSpreadsheetTimeZone) ? ss.getSpreadsheetTimeZone() : "Asia/Dhaka";
+    return Utilities.formatDate(val, tz, "yyyy-MM-dd");
   }
   return String(val).substring(0, 10);
 }

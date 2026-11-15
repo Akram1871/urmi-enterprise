@@ -38,6 +38,9 @@ interface AssetDao {
     @Query("SELECT * FROM assets_maintenance WHERE sync_status != 'SYNCED'")
     suspend fun getUnsyncedAssets(): List<AssetMaintenanceEntity>
 
+    @Query("SELECT * FROM assets_maintenance WHERE is_deleted = 0")
+    suspend fun getAllActiveAssets(): List<AssetMaintenanceEntity>
+
     @Query("UPDATE assets_maintenance SET sync_status = 'SYNCED' WHERE asset_id IN (:assetIds)")
     suspend fun markAssetsSynced(assetIds: List<String>)
 }

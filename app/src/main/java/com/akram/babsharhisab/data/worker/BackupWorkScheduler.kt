@@ -58,8 +58,8 @@ class BackupWorkScheduler @Inject constructor(
     fun scheduleDebouncedMutationSync() {
         val oneTimeRequest = OneTimeWorkRequestBuilder<GoogleSheetsBackupWorker>()
             .setConstraints(connectedConstraints)
-            .setInitialDelay(10, TimeUnit.SECONDS)
-            .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 30, TimeUnit.SECONDS)
+            .setInitialDelay(1, TimeUnit.SECONDS)
+            .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 15, TimeUnit.SECONDS)
             .setInputData(workDataOf(GoogleSheetsBackupWorker.KEY_MANUAL_TRIGGER to false))
             .addTag(TAG_BACKUP_WORK)
             .build()
