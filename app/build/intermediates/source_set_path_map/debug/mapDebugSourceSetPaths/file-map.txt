@@ -1,0 +1,73 @@
+com.akram.babsharhisab.app-core-ktx-1.15.0-0 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\06102c861f665cbe9ce0571b1f3bd5d1\transformed\core-ktx-1.15.0\res
+com.akram.babsharhisab.app-navigation-runtime-ktx-2.8.3-1 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\0668f589a2934b27360925539606b928\transformed\navigation-runtime-ktx-2.8.3\res
+com.akram.babsharhisab.app-work-runtime-2.10.0-2 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\08065375e3283950f5ce5e51a68f9f4a\transformed\work-runtime-2.10.0\res
+com.akram.babsharhisab.app-sqlite-2.4.0-3 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\0b66daa62af554a620dae2847ea63ea7\transformed\sqlite-2.4.0\res
+com.akram.babsharhisab.app-animation-release-4 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\1033eac545d74d68d3e0aaddf6f0b608\transformed\animation-release\res
+com.akram.babsharhisab.app-hilt-navigation-1.2.0-5 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\16452c817b1a3aa5bef30e58376798c5\transformed\hilt-navigation-1.2.0\res
+com.akram.babsharhisab.app-material3-release-6 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\188fe1917c34face3c1fc2cd0e241b34\transformed\material3-release\res
+com.akram.babsharhisab.app-customview-poolingcontainer-1.0.0-7 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\18a2f7e6bb03992f8de39e1ea84cbfd1\transformed\customview-poolingcontainer-1.0.0\res
+com.akram.babsharhisab.app-fragment-1.5.1-8 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\196ac6d4d397b11cb2bdbb26400fd14a\transformed\fragment-1.5.1\res
+com.akram.babsharhisab.app-lifecycle-livedata-2.8.7-9 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\1a2c0dbcb74552395d39c5070c11f9e1\transformed\lifecycle-livedata-2.8.7\res
+com.akram.babsharhisab.app-datastore-release-10 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\1d105494c366eba29b8430c79bb551b0\transformed\datastore-release\res
+com.akram.babsharhisab.app-material-release-11 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\1d78fc9232ed08c27f376755f43362e3\transformed\material-release\res
+com.akram.babsharhisab.app-activity-ktx-1.9.3-12 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\1e74def683735adca7b8aff0ab6bcb1f\transformed\activity-ktx-1.9.3\res
+com.akram.babsharhisab.app-lifecycle-livedata-core-ktx-2.8.7-13 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\22a9b028aab0b4eb7b52af311dbcf84a\transformed\lifecycle-livedata-core-ktx-2.8.7\res
+com.akram.babsharhisab.app-tracing-ktx-1.2.0-14 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\27d5a421709921fe1ee52a41f982cff6\transformed\tracing-ktx-1.2.0\res
+com.akram.babsharhisab.app-ui-tooling-preview-release-15 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\2a58f7bfc0684357b544ed067a4764dd\transformed\ui-tooling-preview-release\res
+com.akram.babsharhisab.app-foundation-layout-release-16 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\2b471282ccafd16321c37dcbbce8324b\transformed\foundation-layout-release\res
+com.akram.babsharhisab.app-navigation-runtime-2.8.3-17 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\356605baf627fe27879a9c0ccaa567d7\transformed\navigation-runtime-2.8.3\res
+com.akram.babsharhisab.app-startup-runtime-1.1.1-18 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\3aa9b739e387a3656235b7dcb989787c\transformed\startup-runtime-1.1.1\res
+com.akram.babsharhisab.app-savedstate-ktx-1.2.1-19 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\3c1149565e8cbf92f2c7fa7143b6cff6\transformed\savedstate-ktx-1.2.1\res
+com.akram.babsharhisab.app-ui-util-release-20 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\3fec02f82bc1c7a4aef03bad02d570e0\transformed\ui-util-release\res
+com.akram.babsharhisab.app-material-icons-core-release-21 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\424b8101962be92547131b105c1afda8\transformed\material-icons-core-release\res
+com.akram.babsharhisab.app-navigation-common-ktx-2.8.3-22 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\4c1a02c9882c7bf810495ab767e46f3f\transformed\navigation-common-ktx-2.8.3\res
+com.akram.babsharhisab.app-navigation-compose-2.8.3-23 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\4fd192504f06a52e76ee6aa6f4f99283\transformed\navigation-compose-2.8.3\res
+com.akram.babsharhisab.app-sqlite-framework-2.4.0-24 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\554f56bede79e84cbb09c77da0596104\transformed\sqlite-framework-2.4.0\res
+com.akram.babsharhisab.app-ui-geometry-release-25 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\61168196eb89361ffc89d43f735eed82\transformed\ui-geometry-release\res
+com.akram.babsharhisab.app-room-runtime-2.6.1-26 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\658c6658ba05e953c340b6a11c7cd680\transformed\room-runtime-2.6.1\res
+com.akram.babsharhisab.app-profileinstaller-1.3.1-27 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\6a7579ec19ff11b3542a72ef3cc6a591\transformed\profileinstaller-1.3.1\res
+com.akram.babsharhisab.app-ui-text-release-28 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\6b49919814336974ac5823bbd33d758c\transformed\ui-text-release\res
+com.akram.babsharhisab.app-lifecycle-service-2.8.7-29 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\6f3f7b116e427b495f548f754ee46b83\transformed\lifecycle-service-2.8.7\res
+com.akram.babsharhisab.app-lifecycle-viewmodel-ktx-2.8.7-30 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\756e90061ca5e2b8e37196417f70d972\transformed\lifecycle-viewmodel-ktx-2.8.7\res
+com.akram.babsharhisab.app-lifecycle-runtime-compose-release-31 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\760fc39bf8685f4f724b1814337ee3cd\transformed\lifecycle-runtime-compose-release\res
+com.akram.babsharhisab.app-ui-tooling-data-release-32 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\7fa152876e7662ed6e6693a25b98b171\transformed\ui-tooling-data-release\res
+com.akram.babsharhisab.app-lifecycle-viewmodel-compose-release-33 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\80c9e1668d996517cabeaac35145dc6c\transformed\lifecycle-viewmodel-compose-release\res
+com.akram.babsharhisab.app-activity-compose-1.9.3-34 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\89184c4ad13c2444c55add5b58555b56\transformed\activity-compose-1.9.3\res
+com.akram.babsharhisab.app-datastore-core-release-35 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\8947cb9131cca2a45590042286adc0c6\transformed\datastore-core-release\res
+com.akram.babsharhisab.app-lifecycle-runtime-ktx-release-36 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\8bc8333f3168aa61e5e26be33a7a5fca\transformed\lifecycle-runtime-ktx-release\res
+com.akram.babsharhisab.app-annotation-experimental-1.4.1-37 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\8c9e6629db1bde03c4578745f965810a\transformed\annotation-experimental-1.4.1\res
+com.akram.babsharhisab.app-lifecycle-runtime-release-38 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\8dffed06a7d9bf9114348d8f755fc77d\transformed\lifecycle-runtime-release\res
+com.akram.babsharhisab.app-room-ktx-2.6.1-39 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\8fc5a81eda3ca7f292f26ab9f47cca50\transformed\room-ktx-2.6.1\res
+com.akram.babsharhisab.app-ui-release-40 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\8fd3cc04219abedc9c278e8548bad926\transformed\ui-release\res
+com.akram.babsharhisab.app-datastore-preferences-release-41 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\9160b3d58a80399b0f62a768fb74716c\transformed\datastore-preferences-release\res
+com.akram.babsharhisab.app-navigation-common-2.8.3-42 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\978810888a553fc90b880446a6d6d71b\transformed\navigation-common-2.8.3\res
+com.akram.babsharhisab.app-core-1.15.0-43 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\99c44c97a3da4f53e5b82ea96c55917c\transformed\core-1.15.0\res
+com.akram.babsharhisab.app-hilt-navigation-compose-1.2.0-44 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\9ba4c917df8a2a26afd01c5526f1d6dd\transformed\hilt-navigation-compose-1.2.0\res
+com.akram.babsharhisab.app-runtime-saveable-release-45 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\9e414105c649895d810a786064d5d70d\transformed\runtime-saveable-release\res
+com.akram.babsharhisab.app-animation-core-release-46 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\a28ec4718b44c189921b3910ca12ce6b\transformed\animation-core-release\res
+com.akram.babsharhisab.app-runtime-release-47 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\a357f98be46970763c48d5666193a9e1\transformed\runtime-release\res
+com.akram.babsharhisab.app-lifecycle-viewmodel-savedstate-2.8.7-48 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\aed23d84b4a51ed336ed310f394efe73\transformed\lifecycle-viewmodel-savedstate-2.8.7\res
+com.akram.babsharhisab.app-ui-unit-release-49 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\b30d622816d37505b6d4dd292ad014e0\transformed\ui-unit-release\res
+com.akram.babsharhisab.app-activity-1.9.3-50 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\b42ca462a3d3cca210be0fb91734e625\transformed\activity-1.9.3\res
+com.akram.babsharhisab.app-material-ripple-release-51 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\b6e7e5100c550211f5a2f775559308a0\transformed\material-ripple-release\res
+com.akram.babsharhisab.app-ui-tooling-release-52 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\b954b058e0a83da6d317ad7dd28f4fdf\transformed\ui-tooling-release\res
+com.akram.babsharhisab.app-core-runtime-2.2.0-53 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\b9b9ed64f9854eb56d6f4c1b0fe46916\transformed\core-runtime-2.2.0\res
+com.akram.babsharhisab.app-lifecycle-viewmodel-release-54 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\be6bef8247c3a529bf43e0fc58121404\transformed\lifecycle-viewmodel-release\res
+com.akram.babsharhisab.app-foundation-release-55 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\bfbefea712780410b3f4db573f230a54\transformed\foundation-release\res
+com.akram.babsharhisab.app-savedstate-1.2.1-56 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\cbf1ff66a9b7d6e73a294f8145806d13\transformed\savedstate-1.2.1\res
+com.akram.babsharhisab.app-ui-graphics-release-57 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\db3d8712c234f8c0c1b646cc6f84700b\transformed\ui-graphics-release\res
+com.akram.babsharhisab.app-work-runtime-ktx-2.10.0-58 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\e2589ed7c99e3306599460c6c16d823c\transformed\work-runtime-ktx-2.10.0\res
+com.akram.babsharhisab.app-security-crypto-1.1.0-alpha06-59 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\e3ddf7bcc19748d47e8ff6ae0c4e426a\transformed\security-crypto-1.1.0-alpha06\res
+com.akram.babsharhisab.app-emoji2-1.3.0-60 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\e87e2bbaaeb31f952b022ecc24bbbea1\transformed\emoji2-1.3.0\res
+com.akram.babsharhisab.app-lifecycle-process-2.8.7-61 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\f3b7bd2f8e73dedaa4ee88657da743fe\transformed\lifecycle-process-2.8.7\res
+com.akram.babsharhisab.app-hilt-work-1.2.0-62 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\f463abf6e448c596f6017dde3c5cec6f\transformed\hilt-work-1.2.0\res
+com.akram.babsharhisab.app-graphics-path-1.0.1-63 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\f7ef55c5b20bbe8f3989734f7e04d222\transformed\graphics-path-1.0.1\res
+com.akram.babsharhisab.app-lifecycle-livedata-core-2.8.7-64 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\f88b412ab88837da9e5dc65277b7995e\transformed\lifecycle-livedata-core-2.8.7\res
+com.akram.babsharhisab.app-material-icons-extended-release-65 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\f9427c502107e29b4dcc2c4db4150f63\transformed\material-icons-extended-release\res
+com.akram.babsharhisab.app-tracing-1.2.0-66 C:\Users\Akram Hossain\.gradle\caches\8.12\transforms\fe75a3fa3834f253cdd43ef69a736d95\transformed\tracing-1.2.0\res
+com.akram.babsharhisab.app-resValues-67 E:\Akram\projects\baba_buisness\app\build\generated\res\resValues\debug
+com.akram.babsharhisab.app-packageDebugResources-68 E:\Akram\projects\baba_buisness\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.akram.babsharhisab.app-packageDebugResources-69 E:\Akram\projects\baba_buisness\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.akram.babsharhisab.app-debug-70 E:\Akram\projects\baba_buisness\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.akram.babsharhisab.app-debug-71 E:\Akram\projects\baba_buisness\app\src\debug\res
+com.akram.babsharhisab.app-main-72 E:\Akram\projects\baba_buisness\app\src\main\res

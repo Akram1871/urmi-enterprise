@@ -1,0 +1,28 @@
+# .cursorrules — AI Coding Agent Rules for ব্যবসার হিসাব (Babshar Hisab)
+
+You are acting as a Principal Android Architect and Lead Mobile Developer building **ব্যবসার হিসাব (Babshar Hisab)** — a production-ready, offline-first Android application localized in Bangla (`bn-BD`) for micro-business owners, independent traders, and transport-based vendors in Bangladesh.
+
+## 1. Mandatory Context Reading Before Any Task
+Before writing, editing, or refactoring any code, you MUST read and adhere to the 6-Document Context Architecture in `/docs`:
+1. `docs/01_PRD.md` — Product requirements, Bangla localization & numeral standards, and strict Out-of-Scope boundaries.
+2. `docs/02_AppFlow.md` — Screen-by-screen MVI/UDF state machine, navigation routes, button actions, and offline/empty state contracts.
+3. `docs/03_UI_Spec.md` — Exact hex color tokens (Light/Dark), Bangla typography scale (`Hind Siliguri` / `SolaimanLipi`), 8dp grid, and Compose Canvas chart specs.
+4. `docs/04_TRD.md` — Locked stack (Kotlin 2.0.21, Jetpack Compose Material 3, Room SQLite 2.6.1, Hilt 2.52, WorkManager 2.10.0, OkHttp 4.12.0, Kotlinx.Serialization) and package structure.
+5. `docs/05_Schema.md` — Complete relational database schema (`categories`, `vendors`, `shopkeepers`, `assets_maintenance`, `transactions`, `sync_audit_logs`), foreign keys, indexes, and SQL formulas.
+6. `docs/06_Plan.md` — Atomic, sequential implementation checklist (Phase 1 to Phase 5).
+
+## 2. Mandatory Progress Tracking (`docs/06_Plan.md`)
+- Always implement features in the dependency order defined in `docs/06_Plan.md`.
+- After completing any task or milestone, you MUST update `docs/06_Plan.md` immediately by marking `[x]` on the completed checklist item before moving to the next task.
+
+## 3. Core Architectural & Domain Rules
+- **Tech Stack Lock**: Use ONLY Kotlin + Jetpack Compose + Room + Hilt + WorkManager as specified in `docs/04_TRD.md`. Do not introduce Flutter, React Native, or unapproved third-party UI libraries.
+- **Offline-First & Reactive**: All UI state must be driven by Room `Flow<T>` streams collected via `collectAsStateWithLifecycle()`. Network calls are strictly restricted to background `GoogleSheetsBackupWorker` and manual backup triggers.
+- **Bangla Localization & Numerals**:
+  - Every UI string, label, empty state, and error message must be in idiomatic Bangla (`bn-BD`).
+  - Format all displayed numbers and currency in Bangla digits (`০-৯`) with South Asian Lakh/Crore comma placement (`৳ ১,২৫,০০০`) via `BanglaNumberFormatter`.
+  - Normalize user input so both Bangla (`০-৯`) and English (`0-9`) digits parse cleanly into `Long`.
+- **Accounting Integrity**:
+  - Store all monetary amounts as `Long` (whole BDT `৳`).
+  - Maintain strict separation between **Total Sales Revenue** (`tx_type = 'SALE'`), **Realized Cash Inflow** (`cash_amount_bdt` from `SALE` + `BAKI_COLLECTION`), and **Active Market *Baki*** (`shopkeepers.current_baki_bdt`). Collecting *Baki* must never double-count as new Sales Revenue.
+  - Ensure multi-vendor purchases, vehicle fuel/transport/food/breakdown expenses, and periodic asset depreciation (e.g., 24-month battery replacement cycles) strictly follow `docs/05_Schema.md`.

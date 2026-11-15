@@ -1,0 +1,719 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "7df86a7116a67dc9767238e817c8551d",
+    "entities": [
+      {
+        "tableName": "categories",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` TEXT NOT NULL, `name_bn` TEXT NOT NULL, `type` TEXT NOT NULL, `icon_name` TEXT NOT NULL, `color_hex` TEXT NOT NULL, `sort_order` INTEGER NOT NULL, `is_system` INTEGER NOT NULL, PRIMARY KEY(`category_id`))",
+        "fields": [
+          {
+            "fieldPath": "categoryId",
+            "columnName": "category_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameBn",
+            "columnName": "name_bn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "iconName",
+            "columnName": "icon_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "colorHex",
+            "columnName": "color_hex",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sortOrder",
+            "columnName": "sort_order",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSystem",
+            "columnName": "is_system",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "category_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "vendors",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`vendor_id` TEXT NOT NULL, `name_bn` TEXT NOT NULL, `market_location_bn` TEXT NOT NULL, `phone_number` TEXT NOT NULL, `total_purchased_bdt` INTEGER NOT NULL, `current_baki_bdt` INTEGER NOT NULL DEFAULT 0, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `is_deleted` INTEGER NOT NULL, `sync_status` TEXT NOT NULL, PRIMARY KEY(`vendor_id`))",
+        "fields": [
+          {
+            "fieldPath": "vendorId",
+            "columnName": "vendor_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameBn",
+            "columnName": "name_bn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "marketLocationBn",
+            "columnName": "market_location_bn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phoneNumber",
+            "columnName": "phone_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalPurchasedBdt",
+            "columnName": "total_purchased_bdt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentBakiBdt",
+            "columnName": "current_baki_bdt",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDeleted",
+            "columnName": "is_deleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncStatus",
+            "columnName": "sync_status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "vendor_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_vendors_sync_status",
+            "unique": false,
+            "columnNames": [
+              "sync_status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_vendors_sync_status` ON `${TABLE_NAME}` (`sync_status`)"
+          },
+          {
+            "name": "index_vendors_total_purchased",
+            "unique": false,
+            "columnNames": [
+              "is_deleted",
+              "total_purchased_bdt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_vendors_total_purchased` ON `${TABLE_NAME}` (`is_deleted`, `total_purchased_bdt`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "shopkeepers",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`shopkeeper_id` TEXT NOT NULL, `name_bn` TEXT NOT NULL, `shop_name_bn` TEXT NOT NULL, `market_area_bn` TEXT NOT NULL, `phone_number` TEXT NOT NULL, `opening_baki_bdt` INTEGER NOT NULL, `current_baki_bdt` INTEGER NOT NULL, `last_transaction_at` INTEGER NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `is_deleted` INTEGER NOT NULL, `sync_status` TEXT NOT NULL, PRIMARY KEY(`shopkeeper_id`))",
+        "fields": [
+          {
+            "fieldPath": "shopkeeperId",
+            "columnName": "shopkeeper_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameBn",
+            "columnName": "name_bn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "shopNameBn",
+            "columnName": "shop_name_bn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "marketAreaBn",
+            "columnName": "market_area_bn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phoneNumber",
+            "columnName": "phone_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "openingBakiBdt",
+            "columnName": "opening_baki_bdt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentBakiBdt",
+            "columnName": "current_baki_bdt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastTransactionAt",
+            "columnName": "last_transaction_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDeleted",
+            "columnName": "is_deleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncStatus",
+            "columnName": "sync_status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "shopkeeper_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_shopkeepers_baki_balance",
+            "unique": false,
+            "columnNames": [
+              "is_deleted",
+              "current_baki_bdt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_shopkeepers_baki_balance` ON `${TABLE_NAME}` (`is_deleted`, `current_baki_bdt`)"
+          },
+          {
+            "name": "index_shopkeepers_sync_status",
+            "unique": false,
+            "columnNames": [
+              "sync_status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_shopkeepers_sync_status` ON `${TABLE_NAME}` (`sync_status`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "assets_maintenance",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`asset_id` TEXT NOT NULL, `asset_name_bn` TEXT NOT NULL, `category_id` TEXT NOT NULL, `purchase_cost_bdt` INTEGER NOT NULL, `lifespan_months` INTEGER NOT NULL, `purchase_date_millis` INTEGER NOT NULL, `next_due_date_millis` INTEGER NOT NULL, `daily_depreciation_bdt` INTEGER NOT NULL, `monthly_depreciation_bdt` INTEGER NOT NULL, `notes_bn` TEXT NOT NULL, `is_active` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `is_deleted` INTEGER NOT NULL, `sync_status` TEXT NOT NULL, PRIMARY KEY(`asset_id`), FOREIGN KEY(`category_id`) REFERENCES `categories`(`category_id`) ON UPDATE NO ACTION ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "assetId",
+            "columnName": "asset_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "assetNameBn",
+            "columnName": "asset_name_bn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryId",
+            "columnName": "category_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "purchaseCostBdt",
+            "columnName": "purchase_cost_bdt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lifespanMonths",
+            "columnName": "lifespan_months",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "purchaseDateMillis",
+            "columnName": "purchase_date_millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nextDueDateMillis",
+            "columnName": "next_due_date_millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dailyDepreciationBdt",
+            "columnName": "daily_depreciation_bdt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "monthlyDepreciationBdt",
+            "columnName": "monthly_depreciation_bdt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notesBn",
+            "columnName": "notes_bn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isActive",
+            "columnName": "is_active",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDeleted",
+            "columnName": "is_deleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncStatus",
+            "columnName": "sync_status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "asset_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_assets_category_id",
+            "unique": false,
+            "columnNames": [
+              "category_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_assets_category_id` ON `${TABLE_NAME}` (`category_id`)"
+          },
+          {
+            "name": "index_assets_active_due",
+            "unique": false,
+            "columnNames": [
+              "is_deleted",
+              "is_active",
+              "next_due_date_millis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_assets_active_due` ON `${TABLE_NAME}` (`is_deleted`, `is_active`, `next_due_date_millis`)"
+          },
+          {
+            "name": "index_assets_sync_status",
+            "unique": false,
+            "columnNames": [
+              "sync_status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_assets_sync_status` ON `${TABLE_NAME}` (`sync_status`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "categories",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "category_id"
+            ],
+            "referencedColumns": [
+              "category_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "transactions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transaction_id` TEXT NOT NULL, `tx_type` TEXT NOT NULL, `category_id` TEXT NOT NULL, `vendor_id` TEXT, `shopkeeper_id` TEXT, `asset_id` TEXT, `total_bill_bdt` INTEGER NOT NULL, `cash_amount_bdt` INTEGER NOT NULL, `baki_delta_bdt` INTEGER NOT NULL, `running_shopkeeper_baki_bdt` INTEGER NOT NULL, `event_date_millis` INTEGER NOT NULL, `date_key` TEXT NOT NULL, `year_month` TEXT NOT NULL, `note_bn` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `version` INTEGER NOT NULL, `is_deleted` INTEGER NOT NULL, `sync_status` TEXT NOT NULL, PRIMARY KEY(`transaction_id`), FOREIGN KEY(`category_id`) REFERENCES `categories`(`category_id`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`vendor_id`) REFERENCES `vendors`(`vendor_id`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`shopkeeper_id`) REFERENCES `shopkeepers`(`shopkeeper_id`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`asset_id`) REFERENCES `assets_maintenance`(`asset_id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "transactionId",
+            "columnName": "transaction_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "txType",
+            "columnName": "tx_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryId",
+            "columnName": "category_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vendorId",
+            "columnName": "vendor_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "shopkeeperId",
+            "columnName": "shopkeeper_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetId",
+            "columnName": "asset_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "totalBillBdt",
+            "columnName": "total_bill_bdt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cashAmountBdt",
+            "columnName": "cash_amount_bdt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bakiDeltaBdt",
+            "columnName": "baki_delta_bdt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "runningShopkeeperBakiBdt",
+            "columnName": "running_shopkeeper_baki_bdt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eventDateMillis",
+            "columnName": "event_date_millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateKey",
+            "columnName": "date_key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "yearMonth",
+            "columnName": "year_month",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "noteBn",
+            "columnName": "note_bn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "version",
+            "columnName": "version",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDeleted",
+            "columnName": "is_deleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncStatus",
+            "columnName": "sync_status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "transaction_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_tx_category_id",
+            "unique": false,
+            "columnNames": [
+              "category_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tx_category_id` ON `${TABLE_NAME}` (`category_id`)"
+          },
+          {
+            "name": "index_tx_vendor_id",
+            "unique": false,
+            "columnNames": [
+              "vendor_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tx_vendor_id` ON `${TABLE_NAME}` (`vendor_id`)"
+          },
+          {
+            "name": "index_tx_shopkeeper_id",
+            "unique": false,
+            "columnNames": [
+              "shopkeeper_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tx_shopkeeper_id` ON `${TABLE_NAME}` (`shopkeeper_id`)"
+          },
+          {
+            "name": "index_tx_asset_id",
+            "unique": false,
+            "columnNames": [
+              "asset_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tx_asset_id` ON `${TABLE_NAME}` (`asset_id`)"
+          },
+          {
+            "name": "index_tx_date_key",
+            "unique": false,
+            "columnNames": [
+              "is_deleted",
+              "date_key",
+              "tx_type"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tx_date_key` ON `${TABLE_NAME}` (`is_deleted`, `date_key`, `tx_type`)"
+          },
+          {
+            "name": "index_tx_year_month_cat",
+            "unique": false,
+            "columnNames": [
+              "is_deleted",
+              "year_month",
+              "category_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tx_year_month_cat` ON `${TABLE_NAME}` (`is_deleted`, `year_month`, `category_id`)"
+          },
+          {
+            "name": "index_tx_shopkeeper_ledger",
+            "unique": false,
+            "columnNames": [
+              "is_deleted",
+              "shopkeeper_id",
+              "event_date_millis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tx_shopkeeper_ledger` ON `${TABLE_NAME}` (`is_deleted`, `shopkeeper_id`, `event_date_millis`)"
+          },
+          {
+            "name": "index_tx_vendor_ledger",
+            "unique": false,
+            "columnNames": [
+              "is_deleted",
+              "vendor_id",
+              "event_date_millis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tx_vendor_ledger` ON `${TABLE_NAME}` (`is_deleted`, `vendor_id`, `event_date_millis`)"
+          },
+          {
+            "name": "index_tx_sync_queue",
+            "unique": false,
+            "columnNames": [
+              "sync_status",
+              "updated_at"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tx_sync_queue` ON `${TABLE_NAME}` (`sync_status`, `updated_at`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "categories",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "category_id"
+            ],
+            "referencedColumns": [
+              "category_id"
+            ]
+          },
+          {
+            "table": "vendors",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "vendor_id"
+            ],
+            "referencedColumns": [
+              "vendor_id"
+            ]
+          },
+          {
+            "table": "shopkeepers",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "shopkeeper_id"
+            ],
+            "referencedColumns": [
+              "shopkeeper_id"
+            ]
+          },
+          {
+            "table": "assets_maintenance",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "asset_id"
+            ],
+            "referencedColumns": [
+              "asset_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "sync_audit_logs",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`log_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `executed_at` INTEGER NOT NULL, `synced_records_count` INTEGER NOT NULL, `status` TEXT NOT NULL, `message_bn` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "logId",
+            "columnName": "log_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "executedAt",
+            "columnName": "executed_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncedRecordsCount",
+            "columnName": "synced_records_count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "messageBn",
+            "columnName": "message_bn",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "log_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7df86a7116a67dc9767238e817c8551d')"
+    ]
+  }
+}

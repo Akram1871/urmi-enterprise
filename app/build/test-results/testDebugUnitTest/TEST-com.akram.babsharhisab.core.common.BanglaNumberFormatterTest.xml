@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.akram.babsharhisab.core.common.BanglaNumberFormatterTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-15T15:53:01" hostname="AKRAM" time="0.078">
+  <properties/>
+  <testcase name="toBanglaDigits converts ASCII digits to Bangla accurately" classname="com.akram.babsharhisab.core.common.BanglaNumberFormatterTest" time="0.007"/>
+  <testcase name="parseBdtAmount safely parses Bangla, ASCII, and empty strings" classname="com.akram.babsharhisab.core.common.BanglaNumberFormatterTest" time="0.016"/>
+  <testcase name="formatTaka formats positive and negative currency with optional sign" classname="com.akram.babsharhisab.core.common.BanglaNumberFormatterTest" time="0.009"/>
+  <testcase name="formatSouthAsianNumber applies Lakh and Crore comma grouping" classname="com.akram.babsharhisab.core.common.BanglaNumberFormatterTest" time="0.0"/>
+  <testcase name="formatCompactTaka formats thousands, lakhs, and crores cleanly" classname="com.akram.babsharhisab.core.common.BanglaNumberFormatterTest" time="0.042"/>
+  <testcase name="toAsciiDigits normalizes mixed Bangla and English input and strips formatting" classname="com.akram.babsharhisab.core.common.BanglaNumberFormatterTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

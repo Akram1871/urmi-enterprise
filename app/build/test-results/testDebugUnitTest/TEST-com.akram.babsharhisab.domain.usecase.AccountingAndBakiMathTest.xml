@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.akram.babsharhisab.domain.usecase.AccountingAndBakiMathTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-15T15:53:01" hostname="AKRAM" time="0.094">
+  <properties/>
+  <testcase name="Personal Home Expense is tracked separately and strictly excluded from business Profit and Loss" classname="com.akram.babsharhisab.domain.usecase.AccountingAndBakiMathTest" time="0.004"/>
+  <testcase name="TransactionFormState isolates amounts across Purchase, Expense categories, and Sale" classname="com.akram.babsharhisab.domain.usecase.AccountingAndBakiMathTest" time="0.032"/>
+  <testcase name="Mahajan split Nagad plus Baki purchase and later Mahajan Baki payment calculate accurately" classname="com.akram.babsharhisab.domain.usecase.AccountingAndBakiMathTest" time="0.008"/>
+  <testcase name="24-month vehicle battery asset depreciation calculates monthly and daily reserves" classname="com.akram.babsharhisab.domain.usecase.AccountingAndBakiMathTest" time="0.045"/>
+  <testcase name="multi-shopkeeper Baki sales and multi-shopkeeper Baki collections in a single day calculate accurately" classname="com.akram.babsharhisab.domain.usecase.AccountingAndBakiMathTest" time="0.001"/>
+  <testcase name="split Sale with Baki separates Accrued Sales Revenue from Realized Cash Flow" classname="com.akram.babsharhisab.domain.usecase.AccountingAndBakiMathTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

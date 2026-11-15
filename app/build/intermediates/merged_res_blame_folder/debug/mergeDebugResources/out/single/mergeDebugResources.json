@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "C:\\Users\\Akram Hossain\\.gradle\\daemon\\8.12\\com.akram.babsharhisab.app-debug-71:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\Akram Hossain\\.gradle\\daemon\\8.12\\com.akram.babsharhisab.app-main-73:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\Akram Hossain\\.gradle\\daemon\\8.12\\com.akram.babsharhisab.app-debug-71:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\Akram Hossain\\.gradle\\daemon\\8.12\\com.akram.babsharhisab.app-main-73:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\Akram Hossain\\.gradle\\daemon\\8.12\\com.akram.babsharhisab.app-debug-71:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\Akram Hossain\\.gradle\\daemon\\8.12\\com.akram.babsharhisab.app-main-73:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\Akram Hossain\\.gradle\\daemon\\8.12\\com.akram.babsharhisab.app-debug-71:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\Akram Hossain\\.gradle\\daemon\\8.12\\com.akram.babsharhisab.app-main-73:\\drawable\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.akram.babsharhisab.app-debug-71:/xml_file_paths.xml.flat",
+        "source": "com.akram.babsharhisab.app-main-73:/xml/file_paths.xml"
+    }
+]
