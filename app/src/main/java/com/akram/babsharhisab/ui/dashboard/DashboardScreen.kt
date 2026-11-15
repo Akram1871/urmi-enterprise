@@ -47,6 +47,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.akram.babsharhisab.BuildConfig
 import com.akram.babsharhisab.core.common.BanglaDateUtils
 import com.akram.babsharhisab.core.common.BanglaNumberFormatter
 import com.akram.babsharhisab.domain.model.TransactionItem
@@ -91,7 +92,7 @@ fun DashboardScreen(
     ) {
         item {
             Spacer(modifier = Modifier.height(6.dp))
-            // Header Row: App Title
+            // Header Row: App Title + Current Version
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = "ঊর্মি এন্টারপ্রাইজ",
@@ -99,7 +100,7 @@ fun DashboardScreen(
                     color = MaterialTheme.colorScheme.primary
                 )
                 Text(
-                    text = "Urmi Enterprise • দৈনিক আয়-ব্যয় ও বাকি খাতা",
+                    text = "Urmi Enterprise • দৈনিক আয়-ব্যয় ও বাকি খাতা • v${BanglaNumberFormatter.toBanglaDigits(BuildConfig.VERSION_NAME)}",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

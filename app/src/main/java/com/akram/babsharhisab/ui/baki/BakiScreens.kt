@@ -12,14 +12,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
@@ -46,6 +49,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -622,37 +626,47 @@ fun QuickBakiCollectionSheet(
 
     val parsedAmount = BanglaNumberFormatter.parseBdtAmount(amountInput)
     val remainingAfter = (shopkeeper.currentBakiBdt - parsedAmount).coerceAtLeast(0L)
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    ModalBottomSheet(onDismissRequest = onDismiss) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .verticalScroll(rememberScrollState())
+                .navigationBarsPadding()
+                .padding(horizontal = 16.dp, vertical = 6.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
                 text = "বাকি আদায় করুন — ${shopkeeper.nameBn}",
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
             )
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column {
-                    Text("বর্তমান মোট পাওনা:", style = MaterialTheme.typography.labelMedium)
+                Column(modifier = Modifier.weight(1f)) {
+                    Text("বর্তমান মোট পাওনা:", style = MaterialTheme.typography.labelSmall)
                     Text(
                         text = BanglaNumberFormatter.formatTaka(shopkeeper.currentBakiBdt),
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.titleMedium,
                         color = BakiAmber,
                         fontWeight = FontWeight.Bold
                     )
                 }
-                Column(horizontalAlignment = Alignment.End) {
-                    Text("জমা দেওয়ার পর বাকি থাকবে:", style = MaterialTheme.typography.labelMedium)
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.End
+                ) {
+                    Text("জমা দেওয়ার পর বাকি থাকবে:", style = MaterialTheme.typography.labelSmall)
                     Text(
                         text = BanglaNumberFormatter.formatTaka(remainingAfter),
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.titleMedium,
                         color = ProfitGreen,
                         fontWeight = FontWeight.Bold
                     )
@@ -667,23 +681,68 @@ fun QuickBakiCollectionSheet(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(14.dp),
+                        .padding(horizontal = 12.dp, vertical = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column {
+                    Column(modifier = Modifier.weight(1f)) {
                         Text("আজ নগদ জমা দিলো (৳):", style = MaterialTheme.typography.labelMedium)
                         Text(
                             text = BanglaNumberFormatter.formatTaka(parsedAmount),
-                            style = MaterialTheme.typography.displayLarge,
-                            color = ProfitGreen
+                            style = MaterialTheme.typography.headlineLarge,
+                            color = ProfitGreen,
+                            fontWeight = FontWeight.Bold
                         )
                     }
+                    Spacer(modifier = Modifier.width(8.dp))
                     OutlinedButton(
                         onClick = { amountInput = shopkeeper.currentBakiBdt.toString() }
                     ) {
-                        Text("পুরো বাকি শোধ")
+                        Text(
+                            text = "পুরো বাকি শোধ",
+                            maxLines = 1,
+                            softWrap = false
+                        )
                     }
+                }
+            }
+
+            BanglaNumericKeypad(
+                currentAsciiAmount = amountInput,
+                onAmountChange = { amountInput = it }
+            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                OutlinedButton(
+                    onClick = onDismiss,
+                    modifier = Modifier
+                        .weight(0.8f)
+                        .height(50.dp),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text("বাতিল", maxLines = 1)
+                }
+                Button(
+                    onClick = {
+                        if (parsedAmount > 0L) {
+                            onConfirmCollection(amountInput, noteBn)
+                        }
+                    },
+                    enabled = parsedAmount > 0L,
+                    modifier = Modifier
+                        .weight(1.4f)
+                        .height(50.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = ProfitGreen)
+                ) {
+                    Text(
+                        text = "বাকি আদায় সেভ করুন",
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 1
+                    )
                 }
             }
 
@@ -694,31 +753,7 @@ fun QuickBakiCollectionSheet(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
-
-            BanglaNumericKeypad(
-                currentAsciiAmount = amountInput,
-                onAmountChange = { amountInput = it }
-            )
-
-            Button(
-                onClick = {
-                    if (parsedAmount > 0L) {
-                        onConfirmCollection(amountInput, noteBn)
-                    }
-                },
-                enabled = parsedAmount > 0L,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(54.dp),
-                shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = ProfitGreen)
-            ) {
-                Text(
-                    text = "বাকি আদায় নিশ্চিত করুন",
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
         }
     }
 }
@@ -1266,35 +1301,56 @@ fun QuickVendorBakiPaySheet(
     var noteInput by remember { mutableStateOf("") }
     val parsedPay = BanglaNumberFormatter.parseBdtAmount(amountInput)
     val remainingBaki = (vendor.currentBakiBdt - parsedPay).coerceAtLeast(0L)
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    ModalBottomSheet(onDismissRequest = onDismiss) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+                .verticalScroll(rememberScrollState())
+                .navigationBarsPadding()
+                .padding(horizontal = 16.dp, vertical = 6.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
                 text = "মহাজনের বকেয়া পরিশোধ — ${vendor.nameBn}",
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = "বর্তমান বকেয়া দেনা: ${BanglaNumberFormatter.formatTaka(vendor.currentBakiBdt)}",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = PurchaseBlue,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Text(
-                    text = "বাকি থাকবে: ${BanglaNumberFormatter.formatTaka(remainingBaki)}",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = ProfitGreen,
-                    fontWeight = FontWeight.SemiBold
-                )
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "বর্তমান বকেয়া দেনা:",
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                    Text(
+                        text = BanglaNumberFormatter.formatTaka(vendor.currentBakiBdt),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = PurchaseBlue,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.End
+                ) {
+                    Text(
+                        text = "পরিশোধের পর বাকি থাকবে:",
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                    Text(
+                        text = BanglaNumberFormatter.formatTaka(remainingBaki),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = ProfitGreen,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
 
             Card(
@@ -1305,26 +1361,32 @@ fun QuickVendorBakiPaySheet(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(12.dp),
+                        .padding(horizontal = 12.dp, vertical = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column {
+                    Column(modifier = Modifier.weight(1f)) {
                         Text(
                             text = "আজ নগদ পরিশোধের পরিমাণ (আংশিক বা পুরো):",
                             style = MaterialTheme.typography.labelMedium
                         )
                         Text(
                             text = BanglaNumberFormatter.formatTaka(parsedPay),
-                            style = MaterialTheme.typography.displayLarge,
-                            color = PurchaseBlue
+                            style = MaterialTheme.typography.headlineLarge,
+                            color = PurchaseBlue,
+                            fontWeight = FontWeight.Bold
                         )
                     }
                     if (vendor.currentBakiBdt > 0L) {
+                        Spacer(modifier = Modifier.width(8.dp))
                         OutlinedButton(
                             onClick = { amountInput = vendor.currentBakiBdt.toString() }
                         ) {
-                            Text("পুরো দেনা শোধ")
+                            Text(
+                                text = "পুরো দেনা শোধ",
+                                maxLines = 1,
+                                softWrap = false
+                            )
                         }
                     }
                 }
@@ -1335,23 +1397,18 @@ fun QuickVendorBakiPaySheet(
                 onAmountChange = { amountInput = it }
             )
 
-            OutlinedTextField(
-                value = noteInput,
-                onValueChange = { noteInput = it },
-                label = { Text("নোট (ঐচ্ছিক - যেমন: বিকাশ বা নগদ পরিশোধ)") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 OutlinedButton(
                     onClick = onDismiss,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(0.8f)
+                        .height(50.dp),
+                    shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text("বাতিল")
+                    Text("বাতিল", maxLines = 1)
                 }
                 Button(
                     onClick = {
@@ -1359,13 +1416,29 @@ fun QuickVendorBakiPaySheet(
                             onConfirmPayment(amountInput, noteInput.ifBlank { "মহাজনের বকেয়া পরিশোধ" })
                         }
                     },
-                    modifier = Modifier.weight(1.2f),
+                    enabled = parsedPay > 0L,
+                    modifier = Modifier
+                        .weight(1.4f)
+                        .height(50.dp),
+                    shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = PurchaseBlue)
                 ) {
-                    Text("পরিশোধ নিশ্চিত করুন")
+                    Text(
+                        text = "পরিশোধ সেভ করুন",
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 1
+                    )
                 }
             }
-            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = noteInput,
+                onValueChange = { noteInput = it },
+                label = { Text("নোট (ঐচ্ছিক - যেমন: বিকাশ বা নগদ পরিশোধ)") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+            Spacer(modifier = Modifier.height(12.dp))
         }
     }
 }
